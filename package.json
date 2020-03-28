@@ -1,0 +1,32 @@
+{
+  "name": "shopify-google-contacts-sync",
+  "version": "1.0.0",
+  "description": "A public Shopify app to create contacts in google contacts when an order is placed. Useful for contacting customers in the future over email or call",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rohitbhaskar/shopify-google-contacts-sync.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rohitbhaskar/shopify-google-contacts-sync/issues"
+  },
+  "homepage": "https://github.com/rohitbhaskar/shopify-google-contacts-sync#readme",
+  "dependencies": {
+    "@shopify/koa-shopify-auth": "^3.1.58",
+    "dotenv": "^8.2.0",
+    "isomorphic-fetch": "^2.2.1",
+    "koa": "^2.11.0",
+    "koa-session": "^5.13.1",
+    "next": "^9.3.2",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}
