@@ -1,0 +1,12 @@
+{"web":
+    {
+        "client_id":"658593071030-04ao8s9f38i22t90hnsppci2jdag2egt.apps.googleusercontent.com",
+        "project_id":"boxwood-well-272912",
+        "auth_uri":"https://accounts.google.com/o/oauth2/auth",
+        "token_uri":"https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs",
+        "client_secret":"GUAoUQ-2QXJr57N0zox1XhID",
+        "redirect_uris":["http://localhost:5000/auth/google/callback"],
+        "javascript_origins":["http://localhost:5000"]
+    }
+}
