@@ -14,6 +14,7 @@ router.get('/auth/google/callback', (ctx, next) => {
     console.log("get request on /google/callback: ", ctx.request.query);
     //console.log(ctx);
     _google.authCallback(ctx);
+   
 });
 
 module.exports = router ;

@@ -17,7 +17,7 @@ export default function AccountConnectionExample() {
         }
       })
       .then(response => {
-        console.log(response);
+        //console.log(response);
         if(response.data && response.data.includes('http')) {
           //window.location.replace(response.data);
           //window.open(response.data, '_blank');
