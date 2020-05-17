@@ -1,3 +1,6 @@
+const Mongo = require('../helpers/mongoAPI');
+const _mongo = new Mongo();
+
 const { google } = require('googleapis');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -34,9 +37,16 @@ class Google{
                 } else {
                     console.log('Successfully authenticated');
                     console.log("Tokens are: ", tokens);
-                    oAuth2Client.setCredentials(tokens);
-                    authed = true;
-                    ctx.redirect('/');
+                    _mongo.insert("googleShopifyInfo",{"access_token":tokens.access_token, "refresh_token":tokens.refresh_token,"shopify_store_id":"test-store-id"})
+                    .then(result=>{
+                        oAuth2Client.setCredentials(tokens);
+                        authed = true;
+                        ctx.redirect('/');
+                    })  
+                    .catch(error=>{
+
+                    })
+                   
                     //ctx.body = "<html><p>What?</p></html>"
                 }
             });

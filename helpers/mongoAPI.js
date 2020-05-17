@@ -71,6 +71,24 @@ class MongoAPI extends MongoClient {
     }
 
     /**
+    * Wrapper function to the Mongo Insert <asynchronous>
+    * 
+    * @param {string} collection 
+    * @param {Array} Object 
+    */
+   async insert(collection, object) {
+    if (!this.isConnected()) { await this.establishConnection(); }
+
+    try {
+         const client = this.client.db(_keys.DB).collection(collection);
+         await client.insertOne(object);
+    }
+    catch (error) { console.log(`Insert Operation Unsuccessful \n ${error}`); }
+    // finally { this.client.close() }
+
+}
+
+    /**
     * Wrapper function to the Mongo Bulk Delete <asynchronous>
     * 
     * @param {string} collection 
