@@ -10,7 +10,7 @@ let authed = false;
 
 class Google{
 
-    static thisContext = this;
+    //static thisContext = this;
 
     auth(ctx){
         
