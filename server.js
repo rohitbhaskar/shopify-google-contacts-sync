@@ -22,6 +22,7 @@ const { SHOPIFY_API_SECRET_KEY, SHOPIFY_API_KEY, HOST } = process.env;
 
 const server = new Koa();
 const router = require('./routes/routes');
+const koaRouter = new Router();
 
 
 
@@ -68,7 +69,11 @@ app.prepare().then(() => {
 
   const webhook = receiveWebhook({ secret: SHOPIFY_API_SECRET_KEY });
 
-  router.post('/webhooks/products/create', webhook, (ctx) => {
+  // router.post('/webhooks/products/create', webhook, (ctx) => {
+  //   console.log('received webhook: ', ctx.state.webhook);
+  // });
+
+  router.post('/webhooks/orders/create', webhook, (ctx) => {
     console.log('received webhook: ', ctx.state.webhook);
   });
 
@@ -79,14 +84,14 @@ app.prepare().then(() => {
   //   ctx.res.statusCode = 200;
   //   return
   // });
-  router.get('*', verifyRequest(), async (ctx) => {
+  koaRouter.get('*', verifyRequest(), async (ctx) => {
     await handle(ctx.req, ctx.res);
     ctx.respond = false;
     ctx.res.statusCode = 200;
   });
 
-  server.use(router.allowedMethods());
-  server.use(router.routes());
+  server.use(koaRouter.allowedMethods());
+  server.use(koaRouter.routes());
 
   server.listen(port, () => {
     console.log(`> Ready on http://localhost:${port}`);
