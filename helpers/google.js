@@ -1,3 +1,6 @@
+const Mongo = require('../helpers/mongoAPI');
+const _mongo = new Mongo();
+
 const { google } = require('googleapis');
 const dotenv = require('dotenv');
 dotenv.config();
@@ -7,6 +10,7 @@ let authed = false;
 
 class Google{
 
+    //static thisContext = this;
 
     auth(ctx){
         
@@ -14,16 +18,17 @@ class Google{
             // Generate an OAuth URL and redirect there
             const url = oAuth2Client.generateAuthUrl({
                 access_type: 'offline',
-                scope: 'https://www.googleapis.com/auth/contacts.readonly',
+                //scope: 'https://www.googleapis.com/auth/contacts.readonly',
+                scope: 'https://www.googleapis.com/auth/contacts',
                 prompt: 'consent'
                 //scope: 'https://www.googleapis.com/auth/userinfo.profile'
             });
             ctx.body = url;
-            //ctx.redirect(url);
+      
         }
     }
 
-    authCallback(ctx){
+    async authCallback(ctx){
         const code = ctx.query.code
         if (code) {
             // Get an access token based on our OAuth code
@@ -34,14 +39,56 @@ class Google{
                 } else {
                     console.log('Successfully authenticated');
                     console.log("Tokens are: ", tokens);
+                    // _mongo.insert("googleShopifyInfo",{"access_token":tokens.access_token, "refresh_token":tokens.refresh_token,"shopify_store_id":"test-store-id"})
+                    // .then(result=>{
+                    //     oAuth2Client.setCredentials(tokens);
+                    //     authed = true;
+                    //     ctx.redirect('/');
+                    // })  
+                    // .catch(error=>{
+
+                    // })
                     oAuth2Client.setCredentials(tokens);
                     authed = true;
+
+                    //Create contact
+                    //TODO - this API call will not happen here
+                    const service = google.people({version: 'v1', auth: oAuth2Client});
+                    service.people.createContact({
+                        requestBody:  {
+                            emailAddresses: [{value: 'john@doe.com'}],
+                            names: [
+                            {
+                                displayName: 'John Doe',
+                                familyName: 'Doe',
+                                givenName: 'John',
+                            },
+                        ]
+                        }
+                    })
+                    .then(result=>{
+                        console.log('Contact created');
+                    })
+                    .catch(error=>{
+                        console.log(error);
+                    })
                     ctx.redirect('/');
+                   
                     //ctx.body = "<html><p>What?</p></html>"
                 }
             });
         }
     }
+
+    async createContact(body){
+        const service = google.people({version: 'v1', auth: oAuth2Client});
+        const result = await service.people.createContact({
+            requestBody: body
+        });
+        return result;
+       
+    }
+
 
 }
 

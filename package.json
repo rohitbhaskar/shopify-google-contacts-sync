@@ -34,7 +34,9 @@
     "koa": "^2.11.0",
     "koa-router": "^8.0.8",
     "koa-session": "^5.13.1",
-    "next": "^9.3.2",
+    "moment-timezone": "^0.5.31",
+    "mongodb": "^3.6.1",
+    "next": "^9.5.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
   }
