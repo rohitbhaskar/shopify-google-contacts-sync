@@ -1,6 +1,6 @@
 const monogoDbConfig = {
     USERNAME    : 'admin',
-    PASSWORD    : 'abcd1234',
+    PASSWORD    : 'admin123',
     CLUSTER     : 'maincluster',
     DB          : 'shopify-google-contacts-app',
 };
