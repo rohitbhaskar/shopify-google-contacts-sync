@@ -16,13 +16,17 @@ class Google{
         
         //if (!authed) {
             // Generate an OAuth URL and redirect there
-            const url = oAuth2Client.generateAuthUrl({
+            let url = oAuth2Client.generateAuthUrl({
                 access_type: 'offline',
                 //scope: 'https://www.googleapis.com/auth/contacts.readonly',
                 scope: 'https://www.googleapis.com/auth/contacts',
                 prompt: 'consent'
                 //scope: 'https://www.googleapis.com/auth/userinfo.profile'
             });
+            //url = url + (url.includes('?')) ? '' : '?' + 'testParam=testVal';
+            // if(url.includes('?')) url = url+'&testParam=testVal';
+            // else url = url+'?testParam=testVal';
+
             ctx.body = url;
       
         //}
@@ -39,7 +43,7 @@ class Google{
                 } else {
                     console.log('Successfully authenticated');
                     console.log("Tokens are: ", tokens);
-                    _mongo.insert("store-details",{"access_token":tokens.access_token, "refresh_token":tokens.refresh_token,"shopify_store_id":"test-store-id"})
+                    _mongo.insert("storeDetails",{"access_token":tokens.access_token, "refresh_token":tokens.refresh_token,"shopify_store":ctx.cookies.get('shopOrigin')})
                     .then(result=>{
                         // oAuth2Client.setCredentials(tokens);
                         // authed = true;

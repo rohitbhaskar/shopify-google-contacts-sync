@@ -11,9 +11,11 @@ export default function AccountConnectionExample() {
   const handleAction = useCallback(() => {
     const newConnected = !connected;
     if(connected === false){
+      let match = document.cookie.match(new RegExp("(^| )" + shopOrigin + "=([^;]+)"));
+      let shopOrigin =  match ? match[2] : "";
       axios.get('/google', {
         params: {
-          store: 'store.id'
+          store: shopOrigin
         }
       })
       .then(response => {
