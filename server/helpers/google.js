@@ -1,4 +1,4 @@
-const Mongo = require('../helpers/mongoAPI');
+const Mongo = require('./mongoAPI');
 const _mongo = new Mongo();
 
 const { google } = require('googleapis');
@@ -14,7 +14,7 @@ class Google{
 
     auth(ctx){
         
-        if (!authed) {
+        //if (!authed) {
             // Generate an OAuth URL and redirect there
             const url = oAuth2Client.generateAuthUrl({
                 access_type: 'offline',
@@ -25,7 +25,7 @@ class Google{
             });
             ctx.body = url;
       
-        }
+        //}
     }
 
     async authCallback(ctx){
@@ -39,15 +39,16 @@ class Google{
                 } else {
                     console.log('Successfully authenticated');
                     console.log("Tokens are: ", tokens);
-                    // _mongo.insert("googleShopifyInfo",{"access_token":tokens.access_token, "refresh_token":tokens.refresh_token,"shopify_store_id":"test-store-id"})
-                    // .then(result=>{
-                    //     oAuth2Client.setCredentials(tokens);
-                    //     authed = true;
-                    //     ctx.redirect('/');
-                    // })  
-                    // .catch(error=>{
+                    _mongo.insert("store-details",{"access_token":tokens.access_token, "refresh_token":tokens.refresh_token,"shopify_store_id":"test-store-id"})
+                    .then(result=>{
+                        // oAuth2Client.setCredentials(tokens);
+                        // authed = true;
+                        // ctx.redirect('/');
+                        console.log('Inserted data into Mongo: ', result);
+                    })  
+                    .catch(error=>{
 
-                    // })
+                    })
                     oAuth2Client.setCredentials(tokens);
                     authed = true;
 

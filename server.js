@@ -9,7 +9,7 @@ const { default: graphQLProxy } = require('@shopify/koa-shopify-graphql-proxy');
 const { ApiVersion } = require('@shopify/koa-shopify-graphql-proxy');
 const Router = require('koa-router');
 const {receiveWebhook, registerWebhook} = require('@shopify/koa-shopify-webhooks');
-const getSubscriptionUrl = require('./server/getSubscriptionUrl');
+//const getSubscriptionUrl = require('./server/getSubscriptionUrl');
 
 dotenv.config();
 
@@ -61,29 +61,18 @@ app.prepare().then(() => {
           console.log('Failed to register webhook', registration.result);
         }
 
-        await getSubscriptionUrl(ctx, accessToken, shop);
-        //ctx.redirect('/');
+        //await getSubscriptionUrl(ctx, accessToken, shop);
+        ctx.redirect('/');
       }
     }),
   );
 
   const webhook = receiveWebhook({ secret: SHOPIFY_API_SECRET_KEY });
 
-  // router.post('/webhooks/products/create', webhook, (ctx) => {
-  //   console.log('received webhook: ', ctx.state.webhook);
-  // });
-
   router.post('/webhooks/orders/create', webhook, (ctx) => {
     console.log('received webhook: ', ctx.state.webhook);
   });
 
-  // server.use(verifyRequest());
-  // server.use(async (ctx) => {
-  //   await handle(ctx.req, ctx.res);
-  //   ctx.respond = false;
-  //   ctx.res.statusCode = 200;
-  //   return
-  // });
   koaRouter.get('*', verifyRequest(), async (ctx) => {
     await handle(ctx.req, ctx.res);
     ctx.respond = false;

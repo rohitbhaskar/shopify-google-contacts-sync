@@ -10,6 +10,7 @@ class MongoAPI extends MongoClient {
     * 
     */
     async establishConnection() {
+      console.log('Starting to establish mongo connection');
         try {
             this.client = await MongoClient.connect(_keys.URL, { useNewUrlParser: true, useUnifiedTopology: true });
             if (!this.client) { throw new Error("Error connecting to Database"); }

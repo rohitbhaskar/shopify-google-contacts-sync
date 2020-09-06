@@ -1,6 +1,6 @@
 const Router = require('@koa/router');
 const router = new Router();
-const Google = require('../helpers/google');
+const Google = require('../server/helpers/google');
 
 const _google = new Google();
 

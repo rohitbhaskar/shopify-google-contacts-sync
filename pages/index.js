@@ -1,6 +1,6 @@
 import { Layout, Page } from '@shopify/polaris';
 
-import ComponentAccountConnection from '../components/accountConnection';
+import ComponentAccountConnection from './components/accountConnection';
 
 //const img = 'https://cdn.shopify.com/s/files/1/0757/9955/files/empty-state.svg';
 

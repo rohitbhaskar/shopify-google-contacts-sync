@@ -1,13 +1,13 @@
 const monogoDbConfig = {
-    USERNAME    : 'shipping-service-selector',
-    PASSWORD    : 'mongoelevar1234',
-    CLUSTER     : 'main-cluster',
-    DB          : 'elevar-sports',
+    USERNAME    : 'admin',
+    PASSWORD    : 'abcd1234',
+    CLUSTER     : 'maincluster',
+    DB          : 'shopify-google-contacts-app',
 };
 
 monogoDbConfig.URL = `mongodb+srv://` + 
     `${monogoDbConfig.USERNAME}:${monogoDbConfig.PASSWORD}@` + 
-    `${monogoDbConfig.CLUSTER}-ybjui.mongodb.net/` + 
+    `${monogoDbConfig.CLUSTER}.1vqln.mongodb.net/` + 
     `${monogoDbConfig.DB}?retryWrites=true&w=majority`;
 
 
