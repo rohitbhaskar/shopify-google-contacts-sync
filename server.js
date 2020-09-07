@@ -73,7 +73,7 @@ app.prepare().then(() => {
   const webhook = receiveWebhook({ secret: SHOPIFY_API_SECRET_KEY });
 
   router.post('/webhooks/orders/create', webhook, (ctx) => {
-    console.log('received webhook: ', ctx.state.webhook);
+    // console.log('received webhook: ', ctx.state.webhook);
     googleContacts.createContact(ctx.state.webhook);
   });
 

@@ -24,111 +24,116 @@ googleContacts.createContact = (shopifyOrder) => {
 
       //Create contact
       const service = google.people({version: 'v1', auth: oAuth2Client});
-      service.people.createContact({
-          requestBody:  {
-            addresses: [
-              {
-                "type": "shipping",
-                "streetAddress": shopifyOrder.payload.shipping_address.address1,
-                "extendedAddress": shopifyOrder.payload.shipping_address.address2,
-                "city": shopifyOrder.payload.shipping_address.city,
-                "region": shopifyOrder.payload.shipping_address.province,
-                "postalCode": shopifyOrder.payload.shipping_address.zip,
-                "country": shopifyOrder.payload.shipping_address.country,
-                "countryCode": shopifyOrder.payload.shipping_address.country_code
-              },
-              {
-                "type": "billing",
-                "streetAddress": shopifyOrder.payload.billing_address.address1,
-                "extendedAddress": shopifyOrder.payload.billing_address.address2,
-                "city": shopifyOrder.payload.billing_address.city,
-                "region": shopifyOrder.payload.billing_address.province,
-                "postalCode": shopifyOrder.payload.billing_address.zip,
-                "country": shopifyOrder.payload.billing_address.country,
-                "countryCode": shopifyOrder.payload.billing_address.country_code
-              }
-            ],
-            event: [
-              {
-                date: {
-                  "year": new Date(shopifyOrder.payload.created_at).getFullYear(),
-                  "month": new Date(shopifyOrder.payload.created_at).getMonth() + 1,
-                  "day": new Date(shopifyOrder.payload.created_at).getDate()
+      try{
+        service.people.createContact({
+            requestBody:  {
+              addresses: [
+                {
+                  "type": "shipping",
+                  "streetAddress": shopifyOrder.payload.shipping_address.address1,
+                  "extendedAddress": shopifyOrder.payload.shipping_address.address2,
+                  "city": shopifyOrder.payload.shipping_address.city,
+                  "region": shopifyOrder.payload.shipping_address.province,
+                  "postalCode": shopifyOrder.payload.shipping_address.zip,
+                  "country": shopifyOrder.payload.shipping_address.country,
+                  "countryCode": shopifyOrder.payload.shipping_address.country_code
                 },
-                type: "order_date"
-              },
-              {
-                date: {
-                  "year": new Date(shopifyOrder.payload.customer.created_at).getFullYear(),
-                  "month": new Date(shopifyOrder.payload.customer.created_at).getMonth() + 1,
-                  "day": new Date(shopifyOrder.payload.customer.created_at).getDate()
+                {
+                  "type": "billing",
+                  "streetAddress": shopifyOrder.payload.billing_address.address1,
+                  "extendedAddress": shopifyOrder.payload.billing_address.address2,
+                  "city": shopifyOrder.payload.billing_address.city,
+                  "region": shopifyOrder.payload.billing_address.province,
+                  "postalCode": shopifyOrder.payload.billing_address.zip,
+                  "country": shopifyOrder.payload.billing_address.country,
+                  "countryCode": shopifyOrder.payload.billing_address.country_code
+                }
+              ],
+              events: [
+                {
+                  date: {
+                    "year": new Date(shopifyOrder.payload.created_at).getFullYear(),
+                    "month": new Date(shopifyOrder.payload.created_at).getMonth() + 1,
+                    "day": new Date(shopifyOrder.payload.created_at).getDate()
+                  },
+                  type: "order_date"
                 },
-                type: "customer_creation_date"
-              }
-            ],
-            emailAddresses: [
-              {
-                value: shopifyOrder.payload.email,
-                type: "work"
-              },
-              {
-                value: shopifyOrder.payload.contact_email,
-                type: "contact_email"
-              },
-              {
-                value: shopifyOrder.payload.customer.email,
-                type: "customer_email"
-              }
-            ],
-            names: [
-              {
-                givenName: `${shopifyOrder.payload.name} ${shopifyOrder.payload.shipping_address.first_name} ${shopifyOrder.payload.line_items[0].title.split(' ')[1]}`
-              }
-            ],
-            phoneNumbers: [
-              {
-                value: phone(shopifyOrder.payload.shipping_address.phone, 'IND'),
-                type: "work"
-              },
-              {
-                value: phone(shopifyOrder.payload.billing_address.phone, 'IND'),
-                type: "billing_phone"
-              },
-              {
-                value: phone(shopifyOrder.payload.customer.phone, 'IND'),
-                type: "customer_phone"
-              }
-            ],
-            userDefined: [
-              {
-                "key": "Order No.",
-                "value": shopifyOrder.payload.name
-              },
-              {
-                "key": "Order Date",
-                "value": new Date(shopifyOrder.payload.created_at).toDateString()
-              },
-              {
-                "key": "Product",
-                "value": shopifyOrder.payload.line_items[0]
-              },
-              {
-                "key": "Payment Status",
-                "value": shopifyOrder.payload.financial_status
-              },
-              {
-                "key": "Order Status Url",
-                "value": shopifyOrder.payloadorder_status_url
-              }
-            ]
-          }
-      })
-      .then(result=>{
-          console.log('Contact created');
-      })
-      .catch(error=>{
-          console.log(error);
-      })
+                {
+                  date: {
+                    "year": new Date(shopifyOrder.payload.customer.created_at).getFullYear(),
+                    "month": new Date(shopifyOrder.payload.customer.created_at).getMonth() + 1,
+                    "day": new Date(shopifyOrder.payload.customer.created_at).getDate()
+                  },
+                  type: "customer_creation_date"
+                }
+              ],
+              emailAddresses: [
+                {
+                  value: shopifyOrder.payload.email,
+                  type: "work"
+                },
+                {
+                  value: shopifyOrder.payload.contact_email,
+                  type: "contact_email"
+                },
+                {
+                  value: shopifyOrder.payload.customer.email,
+                  type: "customer_email"
+                }
+              ],
+              names: [
+                {
+                  givenName: `${shopifyOrder.payload.name} ${shopifyOrder.payload.shipping_address.first_name} ${shopifyOrder.payload.line_items[0].title.split(' ')[1]} ${shopifyOrder.payload.shipping_address.city} ${shopifyOrder.payload.shipping_address.province_code}`
+                }
+              ],
+              phoneNumbers: [
+                {
+                  value: phone(shopifyOrder.payload.shipping_address.phone, 'IND')[0],
+                  type: "work"
+                },
+                {
+                  value: phone(shopifyOrder.payload.billing_address.phone, 'IND')[0],
+                  type: "billing_phone"
+                },
+                {
+                  value: phone(shopifyOrder.payload.customer.phone, 'IND')[0],
+                  type: "customer_phone"
+                }
+              ],
+              userDefined: [
+                {
+                  "key": "Order No.",
+                  "value": shopifyOrder.payload.name
+                },
+                {
+                  "key": "Order Date",
+                  "value": new Date(shopifyOrder.payload.created_at).toDateString()
+                },
+                {
+                  "key": "Product",
+                  "value": shopifyOrder.payload.line_items[0].title
+                },
+                {
+                  "key": "Payment Status",
+                  "value": shopifyOrder.payload.financial_status
+                },
+                {
+                  "key": "Order Status Url",
+                  "value": shopifyOrder.payload.order_status_url
+                }
+              ]
+            }
+        })
+        .then(result=>{
+            console.log('Contact created');
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+      }
+      catch(e){
+        console.log(`Error in creation of google contact: ${e}`);
+      }
     }
   })
   .catch(error => {
