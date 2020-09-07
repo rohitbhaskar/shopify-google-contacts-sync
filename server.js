@@ -5,11 +5,13 @@ const next = require('next');
 const { default: createShopifyAuth } = require('@shopify/koa-shopify-auth');
 const { verifyRequest } = require('@shopify/koa-shopify-auth');
 const session = require('koa-session');
-const { default: graphQLProxy } = require('@shopify/koa-shopify-graphql-proxy');
+// const { default: graphQLProxy } = require('@shopify/koa-shopify-graphql-proxy');
 const { ApiVersion } = require('@shopify/koa-shopify-graphql-proxy');
 const Router = require('koa-router');
 const {receiveWebhook, registerWebhook} = require('@shopify/koa-shopify-webhooks');
 //const getSubscriptionUrl = require('./server/getSubscriptionUrl');
+const googleAuth = require('./server/configurations/googleAuth');
+const googleContacts = require('./server/helpers/googleContacts');
 
 dotenv.config();
 
@@ -24,7 +26,8 @@ const server = new Koa();
 const router = require('./routes/routes');
 const koaRouter = new Router();
 
-
+// Initialize Google Auth Client
+googleAuth.setAuthClient();
 
 
 app.prepare().then(() => {
@@ -71,6 +74,7 @@ app.prepare().then(() => {
 
   router.post('/webhooks/orders/create', webhook, (ctx) => {
     console.log('received webhook: ', ctx.state.webhook);
+    googleContacts.createContact(ctx.state.webhook);
   });
 
   koaRouter.get('*', verifyRequest(), async (ctx) => {

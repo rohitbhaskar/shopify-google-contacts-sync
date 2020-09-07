@@ -14,9 +14,7 @@ export default function AccountConnectionExample() {
       let match = document.cookie.match(new RegExp("(^| )" + shopOrigin + "=([^;]+)"));
       let shopOrigin =  match ? match[2] : "";
       axios.get('/google', {
-        params: {
-          store: shopOrigin
-        }
+        params: {}
       })
       .then(response => {
         //console.log(response);
