@@ -1,8 +1,12 @@
+const dotenv = require('dotenv');
+dotenv.config();
+const { MONGO_USERNAME, MONGO_PASSWORD, MONGO_CLUSTER, MONGO_DB } = process.env;
+
 const monogoDbConfig = {
-    USERNAME    : 'admin',
-    PASSWORD    : 'admin123',
-    CLUSTER     : 'maincluster',
-    DB          : 'shopify-google-contacts-app',
+    USERNAME    : MONGO_USERNAME,
+    PASSWORD    : MONGO_PASSWORD,
+    CLUSTER     : MONGO_CLUSTER,
+    DB          : MONGO_DB,
 };
 
 monogoDbConfig.URL = `mongodb+srv://` + 
