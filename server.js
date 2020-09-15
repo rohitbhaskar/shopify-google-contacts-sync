@@ -65,7 +65,7 @@ app.prepare().then(() => {
         }
 
         //await getSubscriptionUrl(ctx, accessToken, shop);
-        ctx.redirect('/');
+        ctx.redirect('https://'+shop+'/admin/apps/google-contacts-sync-1');
       }
     }),
   );
